@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using HamsterKindergarden_Simulation;
+using HamsterKindergarden_Db;
 
 
 namespace HamsterKindergarden_UI
 {
-    class Program
+    public class Program
     {
+        
+
         static void Main(string[] args)
         {
-            Hamster h = new Hamster();
 
-            h.FillWithHamsters();
+            //Methods.FillWithHamsters();
+            //Methods.FillCages();
+            Methods.MoveHamstersToActivity();
+
+
+
         }
     }
 }

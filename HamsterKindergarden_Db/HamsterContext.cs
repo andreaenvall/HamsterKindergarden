@@ -6,7 +6,7 @@ using HamsterKindergarden_Simulation;
 
 namespace HamsterKindergarden_Db
 {
-    class HamsterContext : DbContext
+    public class HamsterContext : DbContext
     {
         public DbSet<Hamster> hamster { get; set; }
         public DbSet<HamsterCage> hamstercage { get; set; }
@@ -14,7 +14,7 @@ namespace HamsterKindergarden_Db
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server==LAPTOP-K2JKI9TE\\SQLEXPRESS;Database=HamsterDb;Trusted_Connection=True;").UseLazyLoadingProxies();
+            optionsBuilder.UseSqlServer("Server=LAPTOP-K2JKI9TE\\SQLEXPRESS;Database=HamsterDb;Trusted_Connection=True;").UseLazyLoadingProxies();
         }
     }
 }

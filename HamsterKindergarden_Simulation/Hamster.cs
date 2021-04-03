@@ -15,26 +15,25 @@ namespace HamsterKindergarden_Simulation
         public int Age { get; set; }
         public virtual Gender Gender { get; set; }
         public string Owner { get; set; }
-        public virtual DateTime CheckedIn { get; set; }
-        public virtual List<DateTime> Activities { get; set; }
+        public virtual DateTime CheckedIn { get; set; } 
+        public string LatestActivities { get; set; }
         public int AktivitesCounter { get; set; }
+        public Nullable<int> HamsterCageId { get; set; }
 
+        public int Countminutes { get; set; }
+        
 
-        public void FillWithHamsters()
+       
+        /// <summary>
+        /// Sets the starttime to a specific date and time. Returns a datetime.
+        /// </summary>
+        /// <returns></returns>
+        private static DateTime SetStartTime()
         {
-            using (var reader = new StreamReader("Hamsterlista30.csv"))
-            {
-                List<Hamster> exhamstrar = new List<Hamster>();
 
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    var values = line.Split(';');
-
-                    exhamstrar.Add(new Hamster { Name = values[0], Age = int.Parse(values[1]), Gender = (Gender)Enum.Parse(typeof(Gender), values[2]), Owner = values[3] });
-                    
-                }
-            }
+            DateTime dt = new DateTime(2015, 12, 31, 07, 00, 00);
+            return dt;
         }
+        
     }
 }

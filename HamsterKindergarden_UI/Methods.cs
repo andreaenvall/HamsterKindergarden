@@ -14,8 +14,8 @@ namespace HamsterKindergarden_UI
     {
         public static HamsterContext hk = new HamsterContext();
         public static ActivitieCage ac = new ActivitieCage();
-        public static List<Hamster> activites = new List<Hamster>();
-        public static List<Hamster> ActivityHamster = new List<Hamster>();
+        public static List<Hamster> ActivityQueue = new List<Hamster>();
+        public static List<Hamster> HamstersInActivity = new List<Hamster>();
         public static int Countminutes { get; set; }
 
         public static void FillWithHamsters()
@@ -109,55 +109,70 @@ namespace HamsterKindergarden_UI
             } 
 
                 hk.SaveChanges();
-            }
-        
+            }      
+
+        public static void CreateActivitieCage()
+        {
+            hk.activitieCages.Add(new ActivitieCage { activities = ActivityQueue });
+        }
         
         public static void MoveHamstersToActivity()
         {
             lock (hk)
             {
-               // using (hk)
-                //{
 
+                var HamstersAlreadyinActivity = hk.hamster.OrderBy(x => x.ActivitieCageid);
 
-                int? counter = ac.maxHamstersInActivities - ActivityHamster.Count();
+                foreach(Hamster h in HamstersAlreadyinActivity)
+                {
+                    if(h.ActivitieCageid != null)
+                    {
+                        HamstersInActivity.Add(h);
+                    }
+                }
 
+                int? counter = ac.maxHamstersInActivities - HamstersInActivity.Count();
+                int acId = 0;
+                var activitycageid = hk.activitieCages.Select(x => x.id);
+                foreach(var a in activitycageid.Take(1))
+                {
+                    acId = a;
+                }
 
-                if (activites.Count == 0)
+                if (ActivityQueue.Count == 0)
                 {
                     foreach (var h in hk.hamster.OrderBy(x => x.Gender).ToList())
                     {
 
-                        activites.Add(h);
+                        ActivityQueue.Add(h);
 
                     }
                 }
 
-                    if (ActivityHamster.Count < ac.maxHamstersInActivities)
+                    if (HamstersInActivity.Count < ac.maxHamstersInActivities)
                     {
                     bool gender = true;
                     for (int i = 0; i < counter; i++)
                     {
                         
-                        for (int j = 0; j < ActivityHamster.Count; j++)
+                        for (int j = 0; j < HamstersInActivity.Count; j++)
                         {
-                            if (activites[i].Gender != ActivityHamster[j].Gender)
+                            if (ActivityQueue[i].Gender != HamstersInActivity[j].Gender)
                             {
-                                
                                 gender = false;
                             }
                         }
                         if (gender == true)
                         {
-                            Hamster hamster = activites.ElementAt(i);
+                            Hamster hamster = ActivityQueue.ElementAt(i);
                             if (hamster == null) { break; }
-                            ActivityHamster.Add(hamster);
-                            hamster.ActivitieCageid = 1;
+                            HamstersInActivity.Add(hamster);
+                            hamster.ActivitieCageid = acId;
                             hamster.HamsterCageId = null;
                             hamster.AktivitesCounter++;
                             hamster.LatestActivities = "In Training ";
-                            activites.RemoveAt(i);
-                            activites.Add(hamster);
+                            ActivityQueue.RemoveAt(i);
+                            ActivityQueue.Add(hamster);
 
                         }
 
@@ -190,7 +205,7 @@ namespace HamsterKindergarden_UI
 
                     foreach(Hamster h in query)
                     {
-                        ActivityHamster.Remove(h);
+                        HamstersInActivity.Remove(h);
                         h.HamsterCageId = freespot;
                         h.ActivitieCageid = null;
                         h.LatestActivities = "Chillin in cage after training";
@@ -234,7 +249,7 @@ namespace HamsterKindergarden_UI
             {
                 
 
-                foreach (var h in ActivityHamster)
+                foreach (var h in HamstersInActivity)
                 {
                     if (h.Countminutes == null)
                     {
@@ -261,7 +276,7 @@ namespace HamsterKindergarden_UI
             t2.Start();
             t3.Start();
         }
-        public static async void callmethods2()
+        public static void callmethods2()
         {
             CountTime();
             Thread.Sleep(300);

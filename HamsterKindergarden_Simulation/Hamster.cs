@@ -23,18 +23,16 @@ namespace HamsterKindergarden_Simulation
         public int? ActivitieCageid { get; set; }
         public int? Countminutes { get; set; }
 
-
-
-        /// <summary>
-        /// Sets the starttime to a specific date and time. Returns a datetime.
-        /// </summary>
-        /// <returns></returns>
-        private static DateTime SetStartTime()
-        {
-
-            DateTime dt = new DateTime(2015, 12, 31, 07, 00, 00);
-            return dt;
-        }
-        
+        public virtual List<Activity> ActivityList { get; set; }
     }
+
+
+
+    /// <summary>
+    /// Sets the starttime to a specific date and time. Returns a datetime.
+    /// </summary>
+    /// <returns></returns>
+   
+        
+    
 }

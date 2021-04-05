@@ -6,3 +6,4 @@ select ActivitieCageid, Gender from hamster order by ActivitieCageid
 --update hamster set ActivitieCageid = NULL where ActivitieCageid = 1;
 --update hamstercage set Id = 1 where Id = 145
 select * from hamster
+

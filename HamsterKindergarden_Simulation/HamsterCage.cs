@@ -16,43 +16,9 @@ namespace HamsterKindergarden_Simulation
 
         }
 
-        public HamsterCage Fillcages(IGrouping<Gender, Hamster> h)
-        {
-            List<Hamster> hamster = new List<Hamster>();
 
 
 
-            foreach (var i in h)
-            {
-                if (i.LatestActivities != "Checked In")
-                {
-                    if (hamster.Count < MaxNumberOfHamsters || hamster.Count == null)
-                    {
-
-
-                        hamster.Add(i);
-                        i.LatestActivities = "Checked In";
-
-
-                        //h.RemoveAt(i);
-
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                }
-            }
-            HamsterCage hc = new HamsterCage() { Hamsters = hamster };
-
-            return hc;
-
-
-            }
-
-
-
-        }
+    }
 }
 

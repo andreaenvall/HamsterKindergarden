@@ -17,11 +17,8 @@ namespace HamsterKindergarden_UI
 
             //Methods.FillWithHamsters();
             
-            Methods.FillCages();
-            //Thread.Sleep(10);
-            //await Methods.MoveHamstersToActivity();
-            //await Methods.RemoveHamsterFromActivity();
-            //Task<Hamster> hamstertask = Methods.MoveHamstersToActivity();
+            //Methods.FillCages();
+            
 
 
 
@@ -39,26 +36,8 @@ namespace HamsterKindergarden_UI
         public static void ActivityThreads(object sender, EventArgs args) //används tillsammans med AktivityEventHandler
         {
             Methods.callmethods();
-            //Methods.MoveHamstersToActivity(sender, e);
+           
 
-            //Thread t1 = new Thread(new ThreadStart(Methods.callmethods));
-
-            //Thread t2 = new Thread(new ThreadStart(Methods.RemoveHamsterFromActivity));
-
-            //var task = Task.Run(async () => await Methods.MoveHamstersToActivity());
-            //var task2 = Task.Run(async () => await Methods.RemoveHamsterFromActivity());
-
-
-            //t1.Start();
-            
-            ////t1.Join();
-
-            //t2.Start();
-
-
-
-
-            //await Task.Run(() => Methods.MoveHamstersToActivity());
 
         }
         public static void ActivityThreads2(object sender, EventArgs args)

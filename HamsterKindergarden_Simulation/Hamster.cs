@@ -20,10 +20,11 @@ namespace HamsterKindergarden_Simulation
         public int AktivitesCounter { get; set; }
         public Nullable<int> HamsterCageId { get; set; }
 
-        public int Countminutes { get; set; }
-        
+        public int? ActivitieCageid { get; set; }
+        public int? Countminutes { get; set; }
 
-       
+
+
         /// <summary>
         /// Sets the starttime to a specific date and time. Returns a datetime.
         /// </summary>

@@ -20,6 +20,8 @@ namespace HamsterKindergarden_Simulation
         {
             List<Hamster> hamster = new List<Hamster>();
 
+
+
             foreach (var i in h)
             {
                 if (i.LatestActivities != "Checked In")
@@ -30,6 +32,7 @@ namespace HamsterKindergarden_Simulation
 
                         hamster.Add(i);
                         i.LatestActivities = "Checked In";
+
 
                         //h.RemoveAt(i);
 
@@ -46,10 +49,10 @@ namespace HamsterKindergarden_Simulation
             return hc;
 
 
+            }
+
+
+
         }
-
-       
-
-    }
 }
 

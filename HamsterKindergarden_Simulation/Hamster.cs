@@ -23,7 +23,7 @@ namespace HamsterKindergarden_Simulation
         public int? ActivitieCageid { get; set; }
         public int? Countminutes { get; set; }
 
-        public virtual List<Activity> ActivityList { get; set; }
+        public virtual List<Log> ActivityList { get; set; }
     }
 
 

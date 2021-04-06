@@ -6,9 +6,9 @@ namespace HamsterKindergarden_Simulation
 {
     public enum Activities_Log
     {
-        CheckIn, CheckOut, Training,
+        CheckIn, CheckOut, TrainingStart, TrainingEnd
     }
-    public class Activity
+    public class Log
     {
         public int Id { get; set; }
         public Activities_Log HamsterActivity { get; set; }

@@ -53,6 +53,9 @@ namespace HamsterKindergarden_Db.Migrations
                     b.Property<DateTime>("CheckedIn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Countminutes")
+                        .HasColumnType("int");
+
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
@@ -89,6 +92,32 @@ namespace HamsterKindergarden_Db.Migrations
                     b.ToTable("hamstercage");
                 });
 
+            modelBuilder.Entity("HamsterKindergarden_Simulation.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<TimeSpan>("ActivityDuration")
+                        .HasColumnType("time");
+
+                    b.Property<DateTime>("ActivityTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HamsterActivity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HamsterID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HamsterID");
+
+                    b.ToTable("AktivityLog");
+                });
+
             modelBuilder.Entity("HamsterKindergarden_Simulation.Hamster", b =>
                 {
                     b.HasOne("HamsterKindergarden_Simulation.ActivitieCage", null)
@@ -100,9 +129,21 @@ namespace HamsterKindergarden_Db.Migrations
                         .HasForeignKey("HamsterCageId");
                 });
 
+            modelBuilder.Entity("HamsterKindergarden_Simulation.Log", b =>
+                {
+                    b.HasOne("HamsterKindergarden_Simulation.Hamster", null)
+                        .WithMany("ActivityList")
+                        .HasForeignKey("HamsterID");
+                });
+
             modelBuilder.Entity("HamsterKindergarden_Simulation.ActivitieCage", b =>
                 {
                     b.Navigation("activities");
+                });
+
+            modelBuilder.Entity("HamsterKindergarden_Simulation.Hamster", b =>
+                {
+                    b.Navigation("ActivityList");
                 });
 
             modelBuilder.Entity("HamsterKindergarden_Simulation.HamsterCage", b =>

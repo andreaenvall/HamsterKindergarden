@@ -45,8 +45,9 @@ namespace HamsterKindergarden_Db.Migrations
                     CheckedIn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LatestActivities = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AktivitesCounter = table.Column<int>(type: "int", nullable: false),
+                    HamsterCageId = table.Column<int>(type: "int", nullable: true),
                     ActivitieCageid = table.Column<int>(type: "int", nullable: true),
-                    HamsterCageId = table.Column<int>(type: "int", nullable: true)
+                    Countminutes = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,6 +66,33 @@ namespace HamsterKindergarden_Db.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AktivityLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HamsterActivity = table.Column<int>(type: "int", nullable: false),
+                    ActivityTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ActivityDuration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    HamsterID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AktivityLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AktivityLog_hamster_HamsterID",
+                        column: x => x.HamsterID,
+                        principalTable: "hamster",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AktivityLog_HamsterID",
+                table: "AktivityLog",
+                column: "HamsterID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_hamster_ActivitieCageid",
                 table: "hamster",
@@ -78,6 +106,9 @@ namespace HamsterKindergarden_Db.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AktivityLog");
+
             migrationBuilder.DropTable(
                 name: "hamster");
 

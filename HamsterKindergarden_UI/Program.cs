@@ -14,11 +14,15 @@ namespace HamsterKindergarden_UI
         static int i = 0;
         static void Main(string[] args)
         {
+            Methods.IsHamsterEmty();
+            Methods.FillCages();
 
             //Methods.FillWithHamsters();
-            
-            //Methods.FillCages();
-            
+            //Methods.CreateCages();
+            //
+            //Methods.CreateActivitieCage();
+
+
 
 
 

@@ -6,7 +6,7 @@
 --update hamster set ActivitieCageid = NULL where ActivitieCageid = 1;
 --update hamstercage set Id = 1 where Id = 145
 --delete AktivityLog where HamsterActivity = 2;
---select * from hamster
+select * from hamster
 
 select h.Name, al.HamsterActivity, al.ActivityTime from hamster h
 join AktivityLog al

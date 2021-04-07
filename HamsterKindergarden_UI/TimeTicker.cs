@@ -44,6 +44,7 @@ namespace HamsterKindergarden_Simulation
 
         public static void EndTimer()
         {
+            //timer.Change(Timeout.Infinite, Timeout.Infinite);
             timer.Dispose();
 
         }

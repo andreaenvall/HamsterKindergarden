@@ -418,7 +418,7 @@ namespace HamsterKindergarden_UI
                 foreach (var h in hk.activitieCages)
                 {
                     Console.SetCursorPosition(50, 0);
-                    Console.WriteLine("  Workout Area");
+                    Console.WriteLine("  Workout Area ");
                     Console.SetCursorPosition(50, 1);
                     Console.WriteLine(" ______________ \n");
                     foreach (var x in h.activities)
@@ -438,18 +438,31 @@ namespace HamsterKindergarden_UI
 
                 Console.SetCursorPosition(50, 14);
                 cursor = 14;
-                foreach (var h in hk.AktivityLog.Take(10))
+                //foreach (var h in hk.AktivityLog.Take(10))
+                //{
+                //    cursor++;
+                //    Console.SetCursorPosition(50, cursor);
+
+                //    if (h.HamsterActivity == Activities_Log.CheckIn)
+                //    {
+                //        Console.WriteLine($"{h.ActivityTime}");
+                //    }
+                  
+                //}
+
+                var query = from h in hk.hamster
+                join ac in hk.AktivityLog on h.ID equals ac.HamsterID
+                select new { hamster = h.Name, aktivitet = ac.HamsterActivity, aktivitetstid = ac.ActivityTime};
+                Console.SetCursorPosition(50, 14);
+                Console.WriteLine("10 LATEST UPDATES");
+                cursor = 14;
+                foreach (var h in query.OrderByDescending(x => x.aktivitetstid).Take(10))
                 {
                     cursor++;
                     Console.SetCursorPosition(50, cursor);
-
-                    if (h.HamsterActivity == Activities_Log.CheckIn)
-                    {
-                        Console.WriteLine($"{h.ActivityTime}");
-                    }
-                  
+                    Console.WriteLine($"{h.hamster}, {h.aktivitet}, {h.aktivitetstid}");
                 }
-               
+
 
             }
         }
@@ -463,6 +476,7 @@ namespace HamsterKindergarden_UI
                 List<Hamster> ha = new List<Hamster>();
                 HamsterCage cage = new HamsterCage();
                 List<int> hamsterId = new List<int>();
+                HamstersInActivity.Clear();
 
                 var query3 = hk.hamstercage.OrderBy(x => x.Id).Select(x => x.Id);
 

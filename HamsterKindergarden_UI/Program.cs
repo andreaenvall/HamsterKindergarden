@@ -53,7 +53,7 @@ namespace HamsterKindergarden_UI
         public static void ActivityThreads3(object sender, EventArgs args)
         {
             i++;
-            Methods.callmethods2();
+            //Methods.callmethods2();
             Console.WriteLine(i);
         }
 

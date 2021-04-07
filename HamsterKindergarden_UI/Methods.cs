@@ -20,9 +20,10 @@ namespace HamsterKindergarden_UI
         public static Activities_Log Activities_Log = new Activities_Log();
         //public static Log log = new Log();
         public static DateTime Clock { get => WhatTimeIsIt(); }
-        public static DateTime Start { get => new DateTime(2015, 12, 31, 07, 00, 00); }
+        public static DateTime Start { get => new DateTime(2015, 12, 31, 15, 00, 00); }
         public static int Countminutes { get; set; }
 
+       
         public static void FillWithHamsters()
         {
 
@@ -110,10 +111,9 @@ namespace HamsterKindergarden_UI
                                     ha.Add(h);
                                     h.HamsterCageId = cageid;
                                     h.LatestActivities = "Checked In";
-                                    //foreach(var count in hk.hamstercage.Where(x=> x.Id == cageid).Take(1)) // INVALID COLUMN NAME??
-                                    //{
-                                    //    count.HamsterCount = count.Hamsters.Count();
-                                    //}
+                                    h.CheckedIn = new DateTime(2015, 12, 12, 07, 00, 00);
+                                    
+                                    
 
 
                                     h.ActivityList.Add(new Log { HamsterActivity = Activities_Log.CheckIn, ActivityTime = Clock });
@@ -239,22 +239,28 @@ namespace HamsterKindergarden_UI
 
                 var countminutes = hk.hamster.Where(x => x.Countminutes > 60);
 
+
                 foreach (var h in countminutes)
                 {
-
-                    HamstersInActivity.Remove(h);
-                    
-                    h.HamsterCageId = FindFreeCageSpot(h);
-
-                    foreach (var count in hk.hamstercage.Where(x => x.Id == h.HamsterCageId).Take(1))
+                    if (h.Countminutes < 60)
                     {
-                        count.HamsterCount++;
+                        continue; 
                     }
-                    h.ActivitieCageid = null;
-                    h.LatestActivities = "Chillin in cage after training";
-                    h.Countminutes = 0;
-                    h.ActivityList.Add(new Log { HamsterActivity = Activities_Log.TrainingEnd, ActivityTime = time });
 
+                        HamstersInActivity.Remove(h);
+
+                        h.HamsterCageId = FindFreeCageSpot(h);
+                        //FindFreeCageSpot(h);
+
+                        foreach (var count in hk.hamstercage.Where(x => x.Id == h.HamsterCageId).Take(1))
+                        {
+                            count.HamsterCount++;
+                        }
+                        h.ActivitieCageid = null;
+                        h.LatestActivities = "Chillin in cage after training";
+                        h.Countminutes = 0;
+                        h.ActivityList.Add(new Log { HamsterActivity = Activities_Log.TrainingEnd, ActivityTime = time });
+                    
 
                 }
 
@@ -272,120 +278,50 @@ namespace HamsterKindergarden_UI
         {
             lock (hk)
             {
-               
-                int id = 0;
-                Gender g = Gender.M;
-
-                foreach(var c in hk.hamstercage.Where(x=> x.HamsterCount < 3))
+                int count = 0;
+                int countfalse = 0;
+                int? id = 0;
+                for (int i = 1; i <= 10; i++)
                 {
-                    if(c.HamsterCount > 2)
+                    count = 0;
+                    countfalse = 0;
+                    foreach (Hamster h in ActivityQueue)
+                    {
+                        if(h.Gender != hamster.Gender)
+                        {
+                            if (h.HamsterCageId == i)
+                            {
+                                countfalse++;
+                            }
+                            
+                        }
+
+                        else if (h.Gender == hamster.Gender)
+                        {
+                            if (h.HamsterCageId == i)
+                            {
+                                count++;
+                                id = i;
+                            }
+                            
+                        }
+                        
+                    }
+                    if (count >= 3)
                     {
                         continue;
                     }
-                    if(c.HamsterCount == 0)
+                    if(countfalse > 0)
                     {
-                        if(hamster.Gender == Gender.M)
-                        {
-                            c.IsMale = true;
-                        }
-                       
-                        return c.Id;
+                        continue;
                     }
                     
-
-                    foreach(var h in hk.hamster.Where(x=> x.HamsterCageId == c.Id))
-                    {
-                        if (h == null)
-                        {
-                            if (hamster.Gender == Gender.M && c.IsMale == true)
-                            {
-                                return c.Id;
-                            }
-                            else if(hamster.Gender == Gender.K && c.IsMale == false)
-                            {
-                                return c.Id;
-                            }
-                        }
-                        if (h.Gender == hamster.Gender)
-                        {
-                            id = c.Id;
-                            return c.Id;
-                            
-                        }
-                        else { break; }
-                    }
-                    continue;
-                    
+                    return i;
+                   
                 }
-
-                return id;
-
-                //for (int i = 1; i <= hk.hamstercage.Count(); i++)
-                //{
-                //    foreach (var x in hk.hamster)
-                //    {
-                //        if (x.HamsterCageId == i)
-                //        {
-                //            count++;
-                //            //g = x.Gender;
-
-                //        }
-                //    }
-                //    if (count < 3) //hamster.Gender == g
-                //    {
-                //        return i;
-                //    }
-                //    else { continue; }
-                //}
-
-                //return null;
-
-                //var query = hk.hamster.Where(x => x.HamsterCageId == i);
-
-                //foreach(var h in query)
-                //{
-                //     count++;
-
-                //    if(h.Gender == Gender.M)
-                //    {
-                //        g = Gender.M;
-
-                //    }
-
-                //}
-                //if(count < 3 &&  hamster.Gender == g)
-                //{
-                //    return i;
-                //}
-
-                //var query = hk.hamstercage.OrderBy(x => x.Hamsters).Where(x => x.Hamsters.Count() < 3);
-
-
-
-                //foreach (var i in query)
-                //{
-                //    if (i.Hamsters.Count < i.MaxNumberOfHamsters)
-                //    {
-                //        foreach (Hamster h in i.Hamsters.Take(1))
-                //        {
-                //            if (h.Gender == hamster.Gender)
-                //            {
-                //                return i.Id;
-
-                //                //i.Hamsters.Add(h);
-                //                //hk.SaveChanges();
-                //            }
-                //            else
-                //                break;
-
-                //        }
-
-                //    }
-                //    else { continue; }
-                //}
-
-
-                hk.SaveChanges();
+                
+                return null;
+               
             }
 
     
@@ -400,12 +336,9 @@ namespace HamsterKindergarden_UI
                 
                 foreach (var h in HamstersInActivity)
                 {
-                    if (h.Countminutes == null)
-                    {
-                        h.Countminutes = 0;
-                    }
+                   
 
-                    h.Countminutes = Countminutes;
+                    h.Countminutes += 6;
 
 
                 }
@@ -429,22 +362,30 @@ namespace HamsterKindergarden_UI
             t3.Start();
             t4.Start();
         }
-        public static void callmethods2()
-        {
-            CountTime();
-            Thread.Sleep(300);
-        }
+        
 
         public static DateTime WhatTimeIsIt()
         {
-            
-                TimeSpan time = new TimeSpan(00, 00, Countminutes, 00);
-                DateTime combined = Start.Add(time);
+           
 
-                return combined;
+            TimeSpan time = new TimeSpan(00, 00, Countminutes, 00);
+            DateTime combined = Start.Add(time);
+
+           
+
+            
+            if(combined.Hour == 17 && combined.Minute == 0)
+            {
+                Countminutes +=840;
+                FillCagesNewDay();
+
+
+            }
+
+            return combined;
              
         }
-
+        
         public static void IsHamsterEmty()
         {
             if(hk.hamster.Count() == 0) { FillWithHamsters(); }
@@ -495,10 +436,111 @@ namespace HamsterKindergarden_UI
                 Console.SetCursorPosition(50, 12);
                 Console.WriteLine($"{Clock}");
 
+                Console.SetCursorPosition(50, 14);
+                cursor = 14;
+                foreach (var h in hk.AktivityLog.Take(10))
+                {
+                    cursor++;
+                    Console.SetCursorPosition(50, cursor);
+
+                    if (h.HamsterActivity == Activities_Log.CheckIn)
+                    {
+                        Console.WriteLine($"{h.ActivityTime}");
+                    }
+                  
+                }
+               
+
             }
+        }
+
+        public static void FillCagesNewDay()
+        {
+            lock (hk)
+            {
+
+                List<Hamster> hc = new List<Hamster>();
+                List<Hamster> ha = new List<Hamster>();
+                HamsterCage cage = new HamsterCage();
+                List<int> hamsterId = new List<int>();
+
+                var query3 = hk.hamstercage.OrderBy(x => x.Id).Select(x => x.Id);
+
+                var query = hk.hamster.OrderBy(x => x.Gender);
+
+                foreach (var hamster1 in query)
+                {
+                    hamster1.AktivitesCounter = 0;
+                    hamster1.ActivitieCageid = null;
+                    hamster1.HamsterCageId = null;
+                    hamster1.LatestActivities = "";
+                    hamster1.Countminutes = 0;
+                    hc.Add(hamster1);
+                }
+                foreach (var hb in hk.hamstercage)
+                {
+                    hb.HamsterCount = 3;
+                }
+
+                foreach (var id in query3)
+                {
+                    int? hamsterID = id;
+                    hamsterId.Add(id);
+
+                }
+
+                for (int i = 0; i < hamsterId.Count(); i++)
+                {
+                    ha.Clear();
+                    int? cageid = hamsterId[i];
+                    var query1 = hc.GroupBy(gender => gender.Gender);
+
+
+
+                    foreach (var group in query1)
+                    {
+                        foreach (var h in group)
+                        {
+
+                            if (h.LatestActivities == "")
+                            {
+                                if (ha.Count < cage.MaxNumberOfHamsters)
+                                {
+                                    ha.Add(h);
+                                    h.HamsterCageId = cageid;
+                                    h.LatestActivities = "Checked In";
+                                    h.CheckedIn = new DateTime(2015, 12, 12, 07, 00, 00);
+
+
+
+
+                                    h.ActivityList.Add(new Log { HamsterActivity = Activities_Log.CheckIn, ActivityTime = Clock });
+
+                                }
+                                else
+                                {
+                                    break;
+                                }
+
+
+
+                            }
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+            hk.SaveChanges();
         }
 
     }
 
-}
+    }
+
+
 

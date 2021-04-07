@@ -24,6 +24,8 @@ namespace HamsterKindergarden_Simulation
         public int? Countminutes { get; set; }
 
         public virtual List<Log> ActivityList { get; set; }
+
+       
     }
 
 

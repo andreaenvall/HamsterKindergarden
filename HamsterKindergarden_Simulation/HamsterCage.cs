@@ -10,7 +10,10 @@ namespace HamsterKindergarden_Simulation
         public int Id { get; set; }
         public virtual List<Hamster> Hamsters { get; set; }
         public int MaxNumberOfHamsters { get; } = 3;
-       // public bool IsMale { get; set; }
+
+        public int HamsterCount { get; set; }
+
+        public bool IsMale { get; set; }
 
         public HamsterCage()
         {

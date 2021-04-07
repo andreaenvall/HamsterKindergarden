@@ -28,7 +28,7 @@ namespace HamsterKindergarden_UI
 
 
             TimeTicker.Activities += (sender, e) => ActivityThreads(sender, e);
-            TimeTicker.StartTimer(1000);
+            TimeTicker.StartTimer(500);
 
             //TimeTicker.Activities += (sender, e) => Methods.MoveHamstersToActivity(sender, e);
             //TimeTicker.Activities += (sender, e) => ActivityThreads3(sender, e);

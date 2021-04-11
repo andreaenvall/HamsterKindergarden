@@ -30,10 +30,7 @@ namespace HamsterKindergarden_Simulation
 
 
 
-    /// <summary>
-    /// Sets the starttime to a specific date and time. Returns a datetime.
-    /// </summary>
-    /// <returns></returns>
+    
    
         
     

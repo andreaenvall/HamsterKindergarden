@@ -13,7 +13,7 @@ namespace HamsterKindergarden_Simulation
 
         public int HamsterCount { get; set; }
 
-        public bool IsMale { get; set; }
+       
 
         public HamsterCage()
         {

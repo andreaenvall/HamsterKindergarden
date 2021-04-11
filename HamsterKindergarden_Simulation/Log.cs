@@ -13,7 +13,7 @@ namespace HamsterKindergarden_Simulation
         public int Id { get; set; }
         public Activities_Log HamsterActivity { get; set; }
         public DateTime ActivityTime { get; set; }
-        public TimeSpan ActivityDuration { get; set; }
+        
         public int HamsterID { get; set; }
     }
 }

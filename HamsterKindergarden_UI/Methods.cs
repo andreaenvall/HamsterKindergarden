@@ -19,9 +19,9 @@ namespace HamsterKindergarden_UI
         public static Queue<Hamster> ActivityQueue = new Queue<Hamster>();
         public static List<Hamster> HamstersInActivity = new List<Hamster>();
         public static Activities_Log Activities_Log = new Activities_Log();
-        //public static Log log = new Log();
+      
         public static DateTime Clock { get => WhatTimeIsIt(days); }
-        public static DateTime Start { get => new DateTime(2015, 12, 31, 15, 00, 00); }
+        public static DateTime Start { get => new DateTime(2015, 12, 31, 07, 00, 00); }
         public static int Countminutes { get; set; }
 
 
@@ -30,7 +30,7 @@ namespace HamsterKindergarden_UI
 
             using (var reader = new StreamReader("Hamsterlista30.csv"))
             {
-                //List<Hamster> exhamstrar = new List<Hamster>();
+               
 
                 while (!reader.EndOfStream)
                 {
@@ -135,10 +135,11 @@ namespace HamsterKindergarden_UI
 
 
                 }
+                hk.SaveChanges();
 
             }
 
-            hk.SaveChanges();
+            
         }
 
         public static void CreateActivitieCage()
@@ -208,7 +209,7 @@ namespace HamsterKindergarden_UI
 
                             hamster.LatestActivities = "In Training ";
                             hamster.ActivityList.Add(new Log { HamsterActivity = Activities_Log.TrainingStart, ActivityTime = time });
-                            //ActivityQueue.RemoveAt(i);
+                            
                             ActivityQueue.Enqueue(hamster);
 
                         }
@@ -251,7 +252,7 @@ namespace HamsterKindergarden_UI
                     HamstersInActivity.Remove(h);
 
                     h.HamsterCageId = FindFreeCageSpot(h);
-                    //FindFreeCageSpot(h);
+                   
 
                     foreach (var count in hk.hamstercage.Where(x => x.Id == h.HamsterCageId).Take(1))
                     {
@@ -358,11 +359,10 @@ namespace HamsterKindergarden_UI
             Thread.Sleep(30);
             Thread t5 = new Thread(new ThreadStart(FrontEnd));
             Thread.Sleep(40);
-            //Thread t3 = new Thread(new ThreadStart(EndRaport));
-           // Thread.Sleep(150);
+          
             t1.Start();
             t2.Start();
-            //t3.Start();
+            
             t4.Start();
             t5.Start();
         }
@@ -381,10 +381,10 @@ namespace HamsterKindergarden_UI
 
             if (combined.Hour == 17 && combined.Minute > 0)
             {
-                //EndTime();
+               
                 
                 Countminutes += 840;
-                //TimeTicker.EndTimer();
+               
                 FillCagesNewDay();
 
 
@@ -449,17 +449,7 @@ namespace HamsterKindergarden_UI
 
                 Console.SetCursorPosition(50, 14);
                 cursor = 14;
-                //foreach (var h in hk.AktivityLog.Take(10))
-                //{
-                //    cursor++;
-                //    Console.SetCursorPosition(50, cursor);
-
-                //    if (h.HamsterActivity == Activities_Log.CheckIn)
-                //    {
-                //        Console.WriteLine($"{h.ActivityTime}");
-                //    }
-
-                //}
+               
 
                 var query = from h in hk.hamster
                             join ac in hk.AktivityLog on h.ID equals ac.HamsterID
@@ -576,10 +566,7 @@ namespace HamsterKindergarden_UI
         {
             lock (hk)
             {
-                //DateTime dt = Start.AddDays(days).AddHours(2);
-
-                //if (Clock == dt)
-                //{
+                
 
                 Console.Clear();
                 foreach (var h in hk.hamster)
@@ -593,7 +580,7 @@ namespace HamsterKindergarden_UI
                 var query = from h in hk.hamster
                             join ac in hk.AktivityLog on h.ID equals ac.HamsterID
                             select new { hamster = h.Name, antalakt = h.AktivitesCounter, aktivitet = ac.HamsterActivity, aktivitetstid = ac.ActivityTime };
-                // Console.SetCursorPosition(40, 10);
+              
 
                 Console.WriteLine("\t HamsterKindergarden SimulationRaport");
                 Console.WriteLine("\t ____________________________________");
@@ -608,7 +595,6 @@ namespace HamsterKindergarden_UI
                     foreach (var h in query.OrderByDescending(x => x.hamster).ToList())
                     {
                         cursor++;
-                        //Console.SetCursorPosition(30, cursor);
                         if(h.hamster == x.Name)
                         {
                             Console.WriteLine($"\t {h.aktivitet}, {h.aktivitetstid}");
@@ -635,8 +621,7 @@ namespace HamsterKindergarden_UI
 
 
 
-                //TimeTicker.EndTimer();
-
+               
             }
         }
     }

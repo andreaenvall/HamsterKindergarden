@@ -11,7 +11,7 @@ namespace HamsterKindergarden_UI
     public class Program
     {
 
-        static int i = 0;
+        
         static void Main(string[] args)
         {
 
@@ -40,7 +40,7 @@ namespace HamsterKindergarden_UI
         }
         public static void ActivityThreads2(object sender, EventArgs args)
         {
-            DateTime dt = Methods.Start.AddDays(Methods.days).AddHours(2);
+            DateTime dt = Methods.Start.AddDays(Methods.days).AddHours(9).AddMinutes(49);
 
             if (Methods.Clock >= dt)
             {
@@ -52,12 +52,7 @@ namespace HamsterKindergarden_UI
 
 
         }
-        public static void ActivityThreads3(object sender, EventArgs args)
-        {
-            i++;
-            //Methods.callmethods2();
-            Console.WriteLine(i);
-        }
+       
 
 
 

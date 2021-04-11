@@ -10,7 +10,7 @@ namespace HamsterKindergarden_Simulation
         public int id { get; set; }
         public virtual List<Hamster> activities { get; set; }
         public int maxHamstersInActivities { get; } = 6;
-        public int Tickcounter { get; set; }
+       
         
 
        
